@@ -115,31 +115,48 @@ function AdminDashboard() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Admin Dashboard</h1>
-      <button onClick={handleLogout} style={{ float: "right" }}>Logout</button>
-
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={() => setActiveTab("flights")} style={{ marginRight: "10px" }}>Flights</button>
-        <button onClick={() => setActiveTab("passengers")} style={{ marginRight: "10px" }}>Passengers</button>
-        <button onClick={() => setActiveTab("staff")} style={{ marginRight: "10px" }}>Staff</button>
-        <button onClick={() => setActiveTab("messages")}>Messages</button>
+    <>
+      {/* HEADER */}
+      <div className="system-header">
+        <div className="header-left">
+          SAN Airport – Admin Operations
+        </div>
+        <div className="header-right">
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
 
-      <div style={{ marginTop: "20px" }}>
-        {/* Flights Tab */}
+      {/* MAIN */}
+      <div className="dashboard-container">
+
+        {/* TAB NAVIGATION */}
+        <div className="section-card">
+          <button onClick={() => setActiveTab("flights")}>Flights</button>
+          <button onClick={() => setActiveTab("passengers")} className="secondary-btn">Passengers</button>
+          <button onClick={() => setActiveTab("staff")} className="secondary-btn">Staff</button>
+          <button onClick={() => setActiveTab("messages")} className="secondary-btn">Messages</button>
+        </div>
+
+        {/* FLIGHTS */}
         {activeTab === "flights" && (
-          <div>
+          <div className="section-card">
             <h2>Flights</h2>
-            <form onSubmit={handleAddFlight} style={{ marginBottom: "20px" }}>
-              <input placeholder="Airline" value={newFlight.airline} onChange={e => setNewFlight({...newFlight, airline: e.target.value})} required />
-              <input placeholder="Flight #" value={newFlight.flightNum} onChange={e => setNewFlight({...newFlight, flightNum: e.target.value})} required />
-              <input placeholder="Destination" value={newFlight.destination} onChange={e => setNewFlight({...newFlight, destination: e.target.value})} required />
-              <input placeholder="Gate" value={newFlight.gate} onChange={e => setNewFlight({...newFlight, gate: e.target.value})} required />
+
+            <form onSubmit={handleAddFlight}>
+              <input placeholder="Airline" value={newFlight.airline}
+                onChange={e => setNewFlight({...newFlight, airline: e.target.value})} required />
+              <input placeholder="Flight #" value={newFlight.flightNum}
+                onChange={e => setNewFlight({...newFlight, flightNum: e.target.value})} required />
+              <input placeholder="Destination" value={newFlight.destination}
+                onChange={e => setNewFlight({...newFlight, destination: e.target.value})} required />
+              <input placeholder="Gate" value={newFlight.gate}
+                onChange={e => setNewFlight({...newFlight, gate: e.target.value})} required />
               <button type="submit">Add Flight</button>
             </form>
 
-            <table border="1" cellPadding="5">
+            <table>
               <thead>
                 <tr>
                   <th>Airline</th>
@@ -157,7 +174,10 @@ function AdminDashboard() {
                     <td>{f.destination}</td>
                     <td>{f.gate}</td>
                     <td>
-                      <button onClick={() => handleRemoveFlight(f.flightNum)}>Remove</button>
+                      <button className="danger-btn"
+                        onClick={() => handleRemoveFlight(f.flightNum)}>
+                        Remove
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -166,23 +186,32 @@ function AdminDashboard() {
           </div>
         )}
 
-        {/* Passengers Tab */}
+        {/* PASSENGERS */}
         {activeTab === "passengers" && (
-          <div>
+          <div className="section-card">
             <h2>Passengers</h2>
-            <form onSubmit={handleAddPassenger} style={{ marginBottom: "20px" }}>
-              <input placeholder="First Name" value={newPassenger.firstName} onChange={e => setNewPassenger({...newPassenger, firstName: e.target.value})} required />
-              <input placeholder="Last Name" value={newPassenger.lastName} onChange={e => setNewPassenger({...newPassenger, lastName: e.target.value})} required />
-              <input placeholder="Ticket #" value={newPassenger.ticket} onChange={e => setNewPassenger({...newPassenger, ticket: e.target.value})} required />
-              <input placeholder="Flight" value={newPassenger.flight} onChange={e => setNewPassenger({...newPassenger, flight: e.target.value})} required />
+
+            <form onSubmit={handleAddPassenger}>
+              <input placeholder="First Name"
+                value={newPassenger.firstName}
+                onChange={e => setNewPassenger({...newPassenger, firstName: e.target.value})} required />
+              <input placeholder="Last Name"
+                value={newPassenger.lastName}
+                onChange={e => setNewPassenger({...newPassenger, lastName: e.target.value})} required />
+              <input placeholder="Ticket #"
+                value={newPassenger.ticket}
+                onChange={e => setNewPassenger({...newPassenger, ticket: e.target.value})} required />
+              <input placeholder="Flight"
+                value={newPassenger.flight}
+                onChange={e => setNewPassenger({...newPassenger, flight: e.target.value})} required />
               <button type="submit">Add Passenger</button>
             </form>
 
-            <table border="1" cellPadding="5">
+            <table>
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th>First</th>
+                  <th>Last</th>
                   <th>Ticket</th>
                   <th>Flight</th>
                   <th>Status</th>
@@ -198,7 +227,10 @@ function AdminDashboard() {
                     <td>{p.flight}</td>
                     <td>{p.status}</td>
                     <td>
-                      <button onClick={() => handleRemovePassenger(p.ticket)}>Remove</button>
+                      <button className="danger-btn"
+                        onClick={() => handleRemovePassenger(p.ticket)}>
+                        Remove
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -207,27 +239,36 @@ function AdminDashboard() {
           </div>
         )}
 
-        {/* Staff Tab */}
+        {/* STAFF */}
         {activeTab === "staff" && (
-          <div>
+          <div className="section-card">
             <h2>Staff Members</h2>
-            <form onSubmit={handleAddStaff} style={{ marginBottom: "20px" }}>
-              <input placeholder="First Name" value={newStaff.firstName} onChange={e => setNewStaff({...newStaff, firstName: e.target.value})} required />
-              <input placeholder="Last Name" value={newStaff.lastName} onChange={e => setNewStaff({...newStaff, lastName: e.target.value})} required />
-              <select value={newStaff.role} onChange={e => setNewStaff({...newStaff, role: e.target.value})}>
+
+            <form onSubmit={handleAddStaff}>
+              <input placeholder="First Name"
+                value={newStaff.firstName}
+                onChange={e => setNewStaff({...newStaff, firstName: e.target.value})} required />
+              <input placeholder="Last Name"
+                value={newStaff.lastName}
+                onChange={e => setNewStaff({...newStaff, lastName: e.target.value})} required />
+              <select
+                value={newStaff.role}
+                onChange={e => setNewStaff({...newStaff, role: e.target.value})}>
                 <option>Airline Staff</option>
                 <option>Gate Staff</option>
                 <option>Ground Staff</option>
               </select>
-              <input placeholder="Airline (if applicable)" value={newStaff.airline} onChange={e => setNewStaff({...newStaff, airline: e.target.value})} />
+              <input placeholder="Airline (if applicable)"
+                value={newStaff.airline}
+                onChange={e => setNewStaff({...newStaff, airline: e.target.value})} />
               <button type="submit">Add Staff</button>
             </form>
 
-            <table border="1" cellPadding="5">
+            <table>
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th>First</th>
+                  <th>Last</th>
                   <th>Role</th>
                   <th>Airline</th>
                   <th>Username</th>
@@ -245,7 +286,10 @@ function AdminDashboard() {
                     <td>{s.username}</td>
                     <td>{s.password}</td>
                     <td>
-                      <button onClick={() => handleRemoveStaff(s.firstName, s.lastName)}>Remove</button>
+                      <button className="danger-btn"
+                        onClick={() => handleRemoveStaff(s.firstName, s.lastName)}>
+                        Remove
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -254,32 +298,35 @@ function AdminDashboard() {
           </div>
         )}
 
-        {/* Messages Tab */}
+        {/* MESSAGES */}
         {activeTab === "messages" && (
-          <div>
+          <div className="section-card">
             <h2>Message Board</h2>
-            <div style={{ border: "1px solid #ccc", padding: "10px", height: "200px", overflowY: "auto", marginBottom: "10px" }}>
+
+            <div className="message-board">
               {messages.length === 0 && <p>No messages yet.</p>}
               {messages.map((msg, idx) => (
-                <div key={idx} style={{ marginBottom: "5px" }}>
+                <div key={idx} className="message-entry">
                   <strong>{msg.time}:</strong> {msg.text}
                 </div>
               ))}
             </div>
+
             <form onSubmit={handleSendMessage}>
               <input
                 type="text"
                 placeholder="Type a message..."
                 value={newMessage}
                 onChange={e => setNewMessage(e.target.value)}
-                style={{ width: "70%", marginRight: "10px" }}
+                style={{ width: "70%" }}
               />
               <button type="submit">Send</button>
             </form>
           </div>
         )}
+
       </div>
-    </div>
+    </>
   );
 }
 
