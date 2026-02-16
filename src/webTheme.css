@@ -1,0 +1,220 @@
+/* ===============================
+   GLOBAL SYSTEM STYLE
+================================ */
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #eef2f7;
+    color: #1e293b;
+  }
+  
+  /* ===============================
+     TOP HEADER BAR (LIKE REAL OPS SYSTEM)
+  ================================ */
+  .system-header {
+    background-color: #0a1f44;
+    color: white;
+    padding: 18px 30px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  
+  /* ===============================
+     DASHBOARD CONTAINER
+  ================================ */
+  .dashboard-container {
+    padding: 30px;
+    min-height: 100vh;
+  }
+  
+  /* ===============================
+     SECTION PANELS (OPS BOXES)
+  ================================ */
+  .section-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 22px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    border: 1px solid #dbe2ea;
+  }
+  
+  /* Section Titles */
+  .section-card h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #0a1f44;
+    border-bottom: 2px solid #e5e9f2;
+    padding-bottom: 8px;
+  }
+  
+  /* ===============================
+     FORM ELEMENTS
+  ================================ */
+  input, select {
+    padding: 7px 10px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
+    font-size: 14px;
+    margin: 6px 0;
+    width: 250px;
+  }
+  
+  input:focus, select:focus {
+    outline: none;
+    border-color: #1e3a8a;
+    background-color: white;
+  }
+  
+  /* ===============================
+     SYSTEM BUTTON STYLE
+  ================================ */
+  button {
+    background-color: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #162f6b;
+  }
+  
+  button:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+  }
+  
+  /* Secondary Buttons */
+  .secondary-btn {
+    background-color: #475569;
+  }
+  
+  .secondary-btn:hover {
+    background-color: #334155;
+  }
+  
+  /* Danger Buttons (Security Remove etc.) */
+  .danger-btn {
+    background-color: #b91c1c;
+  }
+  
+  .danger-btn:hover {
+    background-color: #7f1d1d;
+  }
+  
+  /* Logout */
+  .logout-btn {
+    background-color: #991b1b;
+    float: right;
+  }
+  
+  /* ===============================
+     TABLE DESIGN (LIKE REAL SYSTEM)
+  ================================ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  th {
+    background-color: #0a1f44;
+    color: white;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f1f5f9;
+  }
+  
+  tr:hover {
+    background-color: #e2e8f0;
+  }
+  
+  /* ===============================
+     MESSAGE BOARD (OPS COMMUNICATIONS)
+  ================================ */
+  .message-board-container {
+    margin-top: 30px;
+  }
+  
+  .message-board {
+    height: 220px;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-y: auto;
+    font-size: 13px;
+  }
+  
+  .message-entry {
+    padding: 6px 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .message-entry strong {
+    color: #1e3a8a;
+  }
+  
+  /* ===============================
+     STATUS COLORS (SYSTEM STATUS)
+  ================================ */
+  .status-cleared {
+    color: #15803d;
+    font-weight: 600;
+  }
+  
+  .status-pending {
+    color: #b45309;
+    font-weight: 600;
+  }
+  
+  .status-flagged {
+    color: #dc2626;
+    font-weight: 600;
+  }
+  
+  /* ===============================
+     SMALL INFO PANELS
+  ================================ */
+  .info-box {
+    padding: 10px;
+    background-color: #e0f2fe;
+    border-left: 4px solid #0284c7;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .success-box {
+    background-color: #dcfce7;
+    border-left: 4px solid #16a34a;
+  }
+  
+  .error-box {
+    background-color: #fee2e2;
+    border-left: 4px solid #dc2626;
+  }
+  
