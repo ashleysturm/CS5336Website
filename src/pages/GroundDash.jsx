@@ -145,126 +145,123 @@ function GroundStaffDashboard({ staffName }) {
     setNewMessage("");
   };
 
-  // ----------------------------
-  // UI
-  // ----------------------------
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Ground Staff Dashboard</h1>
-      <h3>Logged in as: {staffName || "Ground Staff"}</h3>
-      <button onClick={handleLogout} style={{ float: "right" }}>Logout</button>
-
-      <div style={{ marginTop: "20px" }}>
-        <label>Select Mode: </label>
-        <select value={mode} onChange={e => handleSelectMode(e.target.value)}>
-          <option value="">--Choose Mode--</option>
-          <option value="security">Security Clearance</option>
-          <option value="gate">Gate Operations</option>
-        </select>
+    <>
+      {/* HEADER */}
+      <div className="system-header">
+        <div className="header-left">SAN Airport – {staffName || "Ground Staff"}</div>
+        <div className="header-right">
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
       </div>
 
-      {/* Gate Mode */}
-      {mode === "gate" && (
-        <>
-          <div style={{ marginTop: "20px" }}>
+      {/* DASHBOARD */}
+      <div className="dashboard-container">
+
+        {/* MODE SELECTION */}
+        <div className="section-card">
+          <label>Select Mode: </label>
+          <select value={mode} onChange={e => handleSelectMode(e.target.value)}>
+            <option value="">--Choose Mode--</option>
+            <option value="security">Security Clearance</option>
+            <option value="gate">Gate Operations</option>
+          </select>
+        </div>
+
+        {/* GATE SELECTION */}
+        {mode === "gate" && (
+          <div className="section-card">
             <label>Select Gate: </label>
             <select value={selectedGate} onChange={e => handleSelectGate(e.target.value)}>
               <option value="">--Choose Gate--</option>
               <option value="T1G5">T1G5</option>
               <option value="T1G6">T1G6</option>
             </select>
+
+            {currentFlight && (
+              <div style={{ marginTop: "20px" }}>
+                <h3>Flight Info</h3>
+                <p>Flight: {currentFlight.airline}{currentFlight.flightNum}</p>
+                <p>Gate: {currentFlight.gate}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* BAG TABLE */}
+        {bags.length > 0 && (
+          <div className="section-card">
+            <h2>Bags</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Bag ID</th>
+                  <th>Ticket</th>
+                  <th>Status</th>
+                  <th>Location</th>
+                  {mode === "gate" && <th>Passenger Boarded</th>}
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bags.map(b => {
+                  const passengerBoarded = isPassengerBoarded(b.ticket);
+                  return (
+                    <tr key={b.id}>
+                      <td>{b.id}</td>
+                      <td>{b.ticket}</td>
+                      <td>{b.status}</td>
+                      <td>{b.location}</td>
+                      {mode === "gate" && (
+                        <td style={{ color: passengerBoarded ? "green" : "red" }}>
+                          {passengerBoarded ? "Yes" : "No"}
+                        </td>
+                      )}
+                      <td>
+                        {mode === "security" && b.status === "Not cleared" && (
+                          <>
+                            <button className="secondary-btn" onClick={() => handleSecurityCheck(b.id, true)}>Clear</button>
+                            <button className="danger-btn" onClick={() => handleSecurityCheck(b.id, false)}>Violation</button>
+                          </>
+                        )}
+                        {mode === "gate" && b.location === "Gate" && b.status === "Cleared" && passengerBoarded && (
+                          <button className="secondary-btn" onClick={() => handleLoadBag(b.id)}>Load onto Plane</button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* MESSAGE BOARD */}
+        <div className="section-card">
+          <h2>Message Board</h2>
+          <div className="message-board">
+            {messages.length === 0 && <p>No messages yet.</p>}
+            {messages.map((msg, i) => (
+              <div key={i} className="message-entry">
+                <strong>{msg.time} - {msg.sender}:</strong> {msg.text}
+              </div>
+            ))}
           </div>
 
-          {currentFlight && (
-            <div style={{ marginTop: "20px" }}>
-              <h3>Flight Info</h3>
-              <p>Flight: {currentFlight.airline}{currentFlight.flightNum}</p>
-              <p>Gate: {currentFlight.gate}</p>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* BAG TABLE */}
-      {bags.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
-          <h2>Bags</h2>
-          <table border="1" cellPadding="6">
-            <thead>
-              <tr>
-                <th>Bag ID</th>
-                <th>Ticket</th>
-                <th>Status</th>
-                <th>Location</th>
-                {mode === "gate" && <th>Passenger Boarded</th>}
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bags.map(b => {
-                const passengerBoarded = isPassengerBoarded(b.ticket);
-                return (
-                  <tr key={b.id}>
-                    <td>{b.id}</td>
-                    <td>{b.ticket}</td>
-                    <td>{b.status}</td>
-                    <td>{b.location}</td>
-                    {mode === "gate" && (
-                      <td style={{ color: passengerBoarded ? "green" : "red" }}>
-                        {passengerBoarded ? "Yes" : "No"}
-                      </td>
-                    )}
-                    <td>
-                      {mode === "security" && b.status === "Not cleared" && (
-                        <>
-                          <button onClick={() => handleSecurityCheck(b.id, true)}>Clear</button>
-                          <button onClick={() => handleSecurityCheck(b.id, false)}>Violation</button>
-                        </>
-                      )}
-                      {mode === "gate" && b.location === "Gate" && b.status === "Cleared" && passengerBoarded && (
-                        <button onClick={() => handleLoadBag(b.id)}>Load onto Plane</button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* MESSAGE BOARD */}
-      <div style={{ marginTop: "30px" }}>
-        <h2>Message Board</h2>
-        <div style={{
-          border: "1px solid #ccc",
-          padding: "10px",
-          height: "200px",
-          overflowY: "auto",
-          marginBottom: "10px",
-          backgroundColor: "#f9f9f9"
-        }}>
-          {messages.length === 0 && <p>No messages yet.</p>}
-          {messages.map((msg, i) => (
-            <div key={i} style={{ marginBottom: "5px" }}>
-              <strong>{msg.time} - {msg.sender}:</strong> {msg.text}
-            </div>
-          ))}
+          <form onSubmit={handleSendMessage}>
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={newMessage}
+              onChange={e => setNewMessage(e.target.value)}
+              style={{ width: "70%", marginRight: "10px" }}
+            />
+            <button type="submit">Send</button>
+          </form>
         </div>
 
-        <form onSubmit={handleSendMessage}>
-          <input
-            type="text"
-            placeholder="Type a message..."
-            value={newMessage}
-            onChange={e => setNewMessage(e.target.value)}
-            style={{ width: "70%", marginRight: "10px" }}
-          />
-          <button type="submit">Send</button>
-        </form>
       </div>
-
-    </div>
+    </>
   );
 }
 
