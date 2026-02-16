@@ -17,7 +17,7 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
     { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "0245", status: "Not-checked-in", bags: [] },
   ]);
 
-  const [newBag, setNewBag] = useState({ bagId: "", ticket: "", flight: "" });
+  const [newBag, setNewBag] = useState({ ticket: "", flight: "" });
 
   // Message board state (shared messages + notifications to admin)
   const [messages, setMessages] = useState([]);
@@ -31,6 +31,9 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
     setPassengers(passengers.map(p => p.ticket === ticket ? { ...p, status: "Checked-in" } : p));
   };
 
+  // Function to generate a random 6-digit bag ID
+  const generateBagId = () => Math.floor(100000 + Math.random() * 900000).toString();
+
   // Add bag
   const handleAddBag = (e) => {
     e.preventDefault();
@@ -39,9 +42,10 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
       alert("Passenger not found");
       return;
     }
-    passenger.bags.push({ bagId: newBag.bagId, status: "Checked-in", flight: newBag.flight });
+    const bagId = generateBagId();
+    passenger.bags.push({ bagId, status: "Checked-in", flight: newBag.flight });
     setPassengers([...passengers]);
-    setNewBag({ bagId: "", ticket: "", flight: "" });
+    setNewBag({ ticket: "", flight: "" });
   };
 
   // Send message to board
@@ -75,22 +79,39 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Airline Staff Dashboard - {airlineCode}</h1>
-      <h3>Logged in as: {staffName || "Airline Staff"}</h3>
-      <button onClick={handleLogout} style={{ float: "right" }}>Logout</button>
-
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={() => setActiveTab("flights")} style={{ marginRight: "10px" }}>Flights</button>
-        <button onClick={() => setActiveTab("passengers")}>Passengers</button>
+    <>
+      {/* HEADER */}
+      <div className="system-header">
+        <div className="header-left">SAN Airport – {staffName || "Airline Staff"}</div>
+        <div className="header-right">
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
       </div>
 
-      <div style={{ marginTop: "20px" }}>
-        {/* Flights Tab */}
+      {/* MAIN DASHBOARD */}
+      <div className="dashboard-container">
+
+        {/* TAB NAVIGATION */}
+        <div className="section-card">
+          <button
+            className={activeTab === "flights" ? "active-tab" : ""}
+            onClick={() => setActiveTab("flights")}
+          >
+            Flights
+          </button>
+          <button
+            className={activeTab === "passengers" ? "active-tab secondary-btn" : "secondary-btn"}
+            onClick={() => setActiveTab("passengers")}
+          >
+            Passengers
+          </button>
+        </div>
+
+        {/* FLIGHTS TAB */}
         {activeTab === "flights" && (
-          <div>
+          <div className="section-card">
             <h2>Flights</h2>
-            <table border="1" cellPadding="5">
+            <table>
               <thead>
                 <tr>
                   <th>Flight #</th>
@@ -111,18 +132,13 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
           </div>
         )}
 
-        {/* Passengers Tab */}
+        {/* PASSENGERS TAB */}
         {activeTab === "passengers" && (
-          <div>
+          <div className="section-card">
             <h2>Passengers</h2>
 
+            {/* ADD BAG FORM */}
             <form onSubmit={handleAddBag} style={{ marginBottom: "20px" }}>
-              <input
-                placeholder="Bag ID"
-                value={newBag.bagId}
-                onChange={e => setNewBag({ ...newBag, bagId: e.target.value })}
-                required
-              />
               <input
                 placeholder="Passenger Ticket #"
                 value={newBag.ticket}
@@ -135,14 +151,15 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
                 onChange={e => setNewBag({ ...newBag, flight: e.target.value })}
                 required
               />
-              <button type="submit">Add Bag</button>
+              <button type="submit">Add Bag (auto ID)</button>
             </form>
 
-            <table border="1" cellPadding="5">
+            {/* PASSENGER TABLE */}
+            <table>
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th>First</th>
+                  <th>Last</th>
                   <th>Ticket</th>
                   <th>Flight</th>
                   <th>Status</th>
@@ -161,30 +178,23 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
                     <td>{p.bags.map(b => b.bagId).join(", ")}</td>
                     <td>
                       {p.status === "Not-checked-in" && (
-                        <button onClick={() => handleCheckIn(p.ticket)}>Check-in</button>
+                        <button className="secondary-btn" onClick={() => handleCheckIn(p.ticket)}>Check-in</button>
                       )}
-                      <button onClick={() => handleCheckInProblem(p)}>Remove (Check-in issue)</button>
-                      <button onClick={() => handleSecurityViolation(p)}>Remove (Security)</button>
+                      <button className="danger-btn" onClick={() => handleCheckInProblem(p)}>Issue</button>
+                      <button className="danger-btn" onClick={() => handleSecurityViolation(p)}>Security</button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            {/* Message Board */}
+            {/* MESSAGE BOARD */}
             <div style={{ marginTop: "20px" }}>
               <h2>Message Board</h2>
-              <div style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                height: "200px",
-                overflowY: "auto",
-                marginBottom: "10px",
-                backgroundColor: "#f9f9f9"
-              }}>
+              <div className="message-board">
                 {messages.length === 0 && <p>No messages yet.</p>}
                 {messages.map((msg, i) => (
-                  <div key={i} style={{ marginBottom: "5px" }}>
+                  <div key={i} className="message-entry">
                     <strong>{msg.time} - {msg.sender}:</strong> {msg.text}
                   </div>
                 ))}
@@ -201,11 +211,10 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
                 <button type="submit">Send</button>
               </form>
             </div>
-
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
