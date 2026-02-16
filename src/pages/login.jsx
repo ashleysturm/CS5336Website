@@ -66,75 +66,81 @@ function Login() {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h2>Login</h2>
+    <div>
+      {/* HEADER */}
+      <div className="system-header">
+        <div className="header-left">SAN Airport</div>
+        {/* No logout on login page */}
+      </div>
 
-      {/* LOGIN FORM */}
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <br /><br />
+      {/* LOGIN CARD */}
+      <div className="dashboard-container" style={{ textAlign: "center", marginTop: "50px" }}>
+        <div className="section-card">
+          <h2>Login</h2>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br /><br />
-
-        <button type="submit">Login</button>
-      </form>
-
-      <br />
-
-      <button onClick={() => setShowChange(!showChange)}>
-        {showChange ? "Cancel" : "Change Password"}
-      </button>
-
-      {/* CHANGE PASSWORD SECTION */}
-      {showChange && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Change Password</h3>
-
-          <form onSubmit={handleChangePassword}>
+          <form onSubmit={handleLogin}>
             <input
               type="text"
               placeholder="Username"
-              value={changeUser}
-              onChange={(e) => setChangeUser(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{ marginBottom: "10px", width: "200px" }}
             />
-            <br /><br />
-
+            <br />
             <input
               type="password"
-              placeholder="Old Password"
-              value={oldPass}
-              onChange={(e) => setOldPass(e.target.value)}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ marginBottom: "10px", width: "200px" }}
             />
-            <br /><br />
-
-            <input
-              type="password"
-              placeholder="New Password"
-              value={newPass}
-              onChange={(e) => setNewPass(e.target.value)}
-            />
-            <br /><br />
-
-            <button type="submit">Update Password</button>
+            <br />
+            <button type="submit" className="primary-btn">Login</button>
           </form>
+
+          <br />
+
+          <button className="secondary-btn" onClick={() => setShowChange(!showChange)}>
+            {showChange ? "Cancel" : "Change Password"}
+          </button>
+
+          {showChange && (
+            <div style={{ marginTop: "20px" }}>
+              <h3>Change Password</h3>
+
+              <form onSubmit={handleChangePassword}>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={changeUser}
+                  onChange={(e) => setChangeUser(e.target.value)}
+                  style={{ marginBottom: "10px", width: "200px" }}
+                />
+                <br />
+                <input
+                  type="password"
+                  placeholder="Old Password"
+                  value={oldPass}
+                  onChange={(e) => setOldPass(e.target.value)}
+                  style={{ marginBottom: "10px", width: "200px" }}
+                />
+                <br />
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  value={newPass}
+                  onChange={(e) => setNewPass(e.target.value)}
+                  style={{ marginBottom: "10px", width: "200px" }}
+                />
+                <br />
+                <button type="submit" className="primary-btn">Update Password</button>
+              </form>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
 
 export default Login;
-
-
-
