@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import "./webTheme.css";
 import Login from "./pages/Login";
 import AdminDash from "./pages/AdminDash";
 import AirlineDash from "./pages/AirlineDash";
