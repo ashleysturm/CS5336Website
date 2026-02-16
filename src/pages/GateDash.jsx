@@ -112,119 +112,117 @@ function GateStaffDashboard({ staffName }) {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Gate Staff Dashboard</h1>
-      <h3>Logged in as: {staffName || "Gate Staff"}</h3>
-      <button onClick={handleLogout} style={{ float: "right" }}>Logout</button>
-
-      <div style={{ marginTop: "20px" }}>
-        <label>Select Gate: </label>
-        <select
-          value={selectedGate}
-          onChange={(e) => handleSelectGate(e.target.value)}
-        >
-          <option value="">--Choose Gate--</option>
-          <option value="T1G5">T1G5</option>
-          <option value="T1G6">T1G6</option>
-        </select>
+    <>
+      {/* HEADER */}
+      <div className="system-header">
+        <div className="header-left">SAN Airport – {staffName || "Gate Staff"}</div>
+        <div className="header-right">
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
       </div>
 
-      {selectedGate && flight && (
-        <div style={{ marginTop: "20px" }}>
-          <h2>Flight Info</h2>
-          <p>Flight #: {flight.flightNum}</p>
-          <p>Airline: {flight.airline}</p>
-          <p>Destination: {flight.destination}</p>
-          <p>Gate: {flight.gate}</p>
+      {/* MAIN DASHBOARD */}
+      <div className="dashboard-container">
 
-          <h3>Passengers</h3>
-          <table border="1" cellPadding="5">
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Ticket</th>
-                <th>Status</th>
-                <th>Bags</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {passengers.map((p) => {
-                const allBagsLoaded = p.bags.every((b) => b.status === "Loaded");
-                return (
-                  <tr key={p.ticket}>
-                    <td>{p.firstName}</td>
-                    <td>{p.lastName}</td>
-                    <td>{p.ticket}</td>
-                    <td>{p.status}</td>
-                    <td>{p.bags.map((b) => `${b.bagId} (${b.status})`).join(", ")}</td>
-                    <td>
-                      {p.status === "Checked-in" && (
-                        <button
-                          onClick={() => handleBoardPassenger(p.ticket)}
-                          disabled={!allBagsLoaded}
-                          title={!allBagsLoaded ? "Cannot board: some bags not loaded" : ""}
-                        >
-                          Board
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          <button
-            onClick={handleNotifyAdmin}
-            style={{ marginTop: "20px" }}
-          >
-            Notify Admin Flight Ready
-          </button>
-
-          {allBoarded && (
-            <p style={{ color: "green", marginTop: "10px" }}>
-              All passengers boarded! Flight ready.
-            </p>
-          )}
-
-          {/* Message Board */}
-          <div style={{ marginTop: "30px" }}>
-            <h2>Message Board</h2>
-            <div style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              height: "200px",
-              overflowY: "auto",
-              marginBottom: "10px",
-              backgroundColor: "#f9f9f9"
-            }}>
-              {messages.length === 0 && <p>No messages yet.</p>}
-              {messages.map((msg, i) => (
-                <div key={i} style={{ marginBottom: "5px" }}>
-                  <strong>{msg.time} - {msg.sender}:</strong> {msg.text}
-                </div>
-              ))}
-            </div>
-
-            <form onSubmit={handleSendMessage}>
-              <input
-                type="text"
-                placeholder="Type a message..."
-                value={newMessage}
-                onChange={e => setNewMessage(e.target.value)}
-                style={{ width: "70%", marginRight: "10px" }}
-              />
-              <button type="submit">Send</button>
-            </form>
-          </div>
-
+        {/* GATE SELECTION */}
+        <div className="section-card">
+          <label>Select Gate: </label>
+          <select value={selectedGate} onChange={(e) => handleSelectGate(e.target.value)}>
+            <option value="">--Choose Gate--</option>
+            <option value="T1G5">T1G5</option>
+            <option value="T1G6">T1G6</option>
+          </select>
         </div>
-      )}
 
-      {selectedGate && !flight && <p>No flight assigned to this gate yet.</p>}
-    </div>
+        {/* FLIGHT & PASSENGERS */}
+        {selectedGate && flight && (
+          <div className="section-card">
+            <h2>Flight Info</h2>
+            <p>Flight #: {flight.flightNum}</p>
+            <p>Airline: {flight.airline}</p>
+            <p>Destination: {flight.destination}</p>
+            <p>Gate: {flight.gate}</p>
+
+            <h3>Passengers</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>First</th>
+                  <th>Last</th>
+                  <th>Ticket</th>
+                  <th>Status</th>
+                  <th>Bags</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {passengers.map((p) => {
+                  const allBagsLoaded = p.bags.every((b) => b.status === "Loaded");
+                  return (
+                    <tr key={p.ticket}>
+                      <td>{p.firstName}</td>
+                      <td>{p.lastName}</td>
+                      <td>{p.ticket}</td>
+                      <td>{p.status}</td>
+                      <td>{p.bags.map((b) => `${b.bagId} (${b.status})`).join(", ")}</td>
+                      <td>
+                        {p.status === "Checked-in" && (
+                          <button
+                            className="secondary-btn"
+                            onClick={() => handleBoardPassenger(p.ticket)}
+                            disabled={!allBagsLoaded}
+                            title={!allBagsLoaded ? "Cannot board: some bags not loaded" : ""}
+                          >
+                            Board
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            <button className="secondary-btn" onClick={handleNotifyAdmin} style={{ marginTop: "20px" }}>
+              Notify Admin Flight Ready
+            </button>
+
+            {allBoarded && (
+              <p className="success-box" style={{ marginTop: "10px" }}>
+                All passengers boarded! Flight ready.
+              </p>
+            )}
+
+            {/* MESSAGE BOARD */}
+            <div style={{ marginTop: "30px" }}>
+              <h2>Message Board</h2>
+              <div className="message-board">
+                {messages.length === 0 && <p>No messages yet.</p>}
+                {messages.map((msg, i) => (
+                  <div key={i} className="message-entry">
+                    <strong>{msg.time} - {msg.sender}:</strong> {msg.text}
+                  </div>
+                ))}
+              </div>
+
+              <form onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  placeholder="Type a message..."
+                  value={newMessage}
+                  onChange={e => setNewMessage(e.target.value)}
+                  style={{ width: "70%", marginRight: "10px" }}
+                />
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {selectedGate && !flight && <p>No flight assigned to this gate yet.</p>}
+
+      </div>
+    </>
   );
 }
 
