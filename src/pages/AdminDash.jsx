@@ -10,13 +10,13 @@ function AdminDashboard() {
 
   // Sample data
   const [flights, setFlights] = useState([
-    { airline: "DL", flightNum: "0245", destination: "New York", gate: "T1G5" },
+    { airline: "AA", flightNum: "0245", destination: "New York", gate: "T1G5" },
     { airline: "AA", flightNum: "1010", destination: "Chicago", gate: "T2G3" },
   ]);
 
   const [passengers, setPassengers] = useState([
-    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "DL0245", status: "Not-checked-in" },
-    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "AA1010", status: "Checked-in" },
+    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "0245", status: "Not-checked-in" },
+    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "1010", status: "Checked-in" },
   ]);
 /*changed the format to accommodate the email and phone number columns*/
  const [staff, setStaff] = useState([
@@ -24,7 +24,7 @@ function AdminDashboard() {
     firstName: "Alice",
     lastName: "Brown",
     role: "Airline Staff",
-    airline: "DL",
+    airline: "AA",
     phone: "555-111-2222",
     email: "alice@airport.com",
   },
@@ -91,14 +91,22 @@ function AdminDashboard() {
       alert(`Gate ${newFlight.gate} already has a flight.`);
       return;
     }
+    if (flights.some(f => f.flightNum === newFlight.flightNum)) {
+      alert(`Flight #${newFlight.flightNum} already exists. Each flight must have a unique flight number.`);
+      return;
+    }
     setFlights([...flights, newFlight]);
     setNewFlight({ airline: "", flightNum: "", destination: "", gate: "" });
   };
 
-  const handleAddPassenger = (e) => {
+    const handleAddPassenger = (e) => {
     e.preventDefault();
-    if (!flights.some(f => `${f.airline}${f.flightNum}` === newPassenger.flight)) {
+    if (!flights.some(f => `${f.flightNum}` === newPassenger.flight)) {
       alert(`Flight ${newPassenger.flight} does not exist.`);
+      return;
+    }
+    if (passengers.some(p => p.ticket === newPassenger.ticket)) {
+      alert(`Ticket #${newPassenger.ticket} already exists. Each passenger must have a unique ticket.`);
       return;
     }
     setPassengers([...passengers, newPassenger]);
