@@ -5,15 +5,18 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("flights");
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupText, setPopupText] = useState("");
+
   // Sample data
   const [flights, setFlights] = useState([
-    { airline: "AA", flightNum: "0245", destination: "New York", gate: "T1G5" },
+    { airline: "DL", flightNum: "0245", destination: "New York", gate: "T1G5" },
     { airline: "AA", flightNum: "1010", destination: "Chicago", gate: "T2G3" },
   ]);
 
   const [passengers, setPassengers] = useState([
-    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "0245", status: "Not-checked-in" },
-    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "1010", status: "Checked-in" },
+    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "DL0245", status: "Not-checked-in" },
+    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "AA1010", status: "Checked-in" },
   ]);
 /*changed the format to accommodate the email and phone number columns*/
  const [staff, setStaff] = useState([
@@ -21,7 +24,7 @@ function AdminDashboard() {
     firstName: "Alice",
     lastName: "Brown",
     role: "Airline Staff",
-    airline: "AA",
+    airline: "DL",
     phone: "555-111-2222",
     email: "alice@airport.com",
   },
@@ -88,22 +91,14 @@ function AdminDashboard() {
       alert(`Gate ${newFlight.gate} already has a flight.`);
       return;
     }
-    if (flights.some(f => f.flightNum === newFlight.flightNum)) {
-      alert(`Flight #${newFlight.flightNum} already exists. Each flight must have a unique flight number.`);
-      return;
-    }
     setFlights([...flights, newFlight]);
     setNewFlight({ airline: "", flightNum: "", destination: "", gate: "" });
   };
 
-    const handleAddPassenger = (e) => {
+  const handleAddPassenger = (e) => {
     e.preventDefault();
-    if (!flights.some(f => `${f.flightNum}` === newPassenger.flight)) {
+    if (!flights.some(f => `${f.airline}${f.flightNum}` === newPassenger.flight)) {
       alert(`Flight ${newPassenger.flight} does not exist.`);
-      return;
-    }
-    if (passengers.some(p => p.ticket === newPassenger.ticket)) {
-      alert(`Ticket #${newPassenger.ticket} already exists. Each passenger must have a unique ticket.`);
       return;
     }
     setPassengers([...passengers, newPassenger]);
@@ -112,8 +107,21 @@ function AdminDashboard() {
 
   const handleAddStaff = (e) => {
     e.preventDefault();
-  
-    setStaff(prev => [...prev, newStaff]);
+
+    if (!newStaff.firstName || !newStaff.lastName || !newStaff.phone ||!newStaff.email) {
+    alert("Please fill in First Name, Last Name, a Phone Number, and Email.");
+    return;
+  }
+
+  setStaff(prev => [...prev, newStaff]);
+
+  // Show popup
+  setPopupText("Email has been sent.");
+  setShowPopup(true);
+
+  // Auto-closes popup after 2 seconds
+  setTimeout(() => setShowPopup(false), 2000);
+
   
     // reset the form AFTER adding
     setNewStaff({
@@ -364,6 +372,36 @@ function AdminDashboard() {
         )}
 
       </div>
+
+      {showPopup && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.4)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
+          onClick={() => setShowPopup(false)}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "20px 24px",
+              borderRadius: "12px",
+              minWidth: "280px",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ marginTop: 0 }}>Success</h3>
+            <p style={{ marginBottom: 16 }}>{popupText}</p>
+            <button onClick={() => setShowPopup(false)}>OK</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
