@@ -13,7 +13,7 @@ function GateStaffDashboard({ staffName }) {
   const sampleFlights = [
     {
       flightNum: "0245",
-      airline: "DL",
+      airline: "AA",
       destination: "New York",
       gate: "T1G5",
       passengers: [
@@ -23,8 +23,8 @@ function GateStaffDashboard({ staffName }) {
           ticket: "1234567890",
           status: "Checked-in",
           bags: [
-            { bagId: "B100001", status: "Loaded" },
-            { bagId: "B100002", status: "Not loaded" },
+            { bagId: "100001", status: "Loaded" },
+            { bagId: "100002", status: "Not loaded" },
           ],
         },
         {
@@ -32,7 +32,7 @@ function GateStaffDashboard({ staffName }) {
           lastName: "Smith",
           ticket: "9876543210",
           status: "Checked-in",
-          bags: [{ bagId: "B100003", status: "Loaded" }],
+          bags: [{ bagId: "100003", status: "Loaded" }],
         },
       ],
     },
@@ -47,7 +47,7 @@ function GateStaffDashboard({ staffName }) {
           lastName: "Brown",
           ticket: "2233445566",
           status: "Not-checked-in",
-          bags: [{ bagId: "B100004", status: "Not loaded" }],
+          bags: [{ bagId: "100004", status: "Not loaded" }],
         },
       ],
     },
