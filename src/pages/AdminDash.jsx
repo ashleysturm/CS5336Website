@@ -92,10 +92,14 @@ function AdminDashboard() {
     setNewFlight({ airline: "", flightNum: "", destination: "", gate: "" });
   };
 
-  const handleAddPassenger = (e) => {
+    const handleAddPassenger = (e) => {
     e.preventDefault();
     if (!flights.some(f => `${f.flightNum}` === newPassenger.flight)) {
       alert(`Flight ${newPassenger.flight} does not exist.`);
+      return;
+    }
+    if (passengers.some(p => p.ticket === newPassenger.ticket)) {
+      alert(`Ticket #${newPassenger.ticket} already exists. Each passenger must have a unique ticket.`);
       return;
     }
     setPassengers([...passengers, newPassenger]);
