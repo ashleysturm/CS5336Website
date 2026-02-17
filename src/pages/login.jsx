@@ -1,6 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// VALIDATION FUNCTIONS
+
+// Username will have at least 2 letters followed by 2 digits
+const isValidUsername = (username) => {
+  return /^[a-zA-Z]{2,}\d{2}$/.test(username);
+};
+
+// Instructions say password must be having at least these requirements
+//  At least 6 characters
+//At least 1 uppercase
+//  At least 1 lowercase
+// At least 1 number
+const isValidPassword = (password) => {
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(password);
+};
+
+
+
 function Login() {
   const navigate = useNavigate();
 
@@ -26,7 +44,16 @@ function Login() {
   // -------------------------
   const handleLogin = (e) => {
     e.preventDefault();
+    // Admin can stay as-is (hardcoded account), everyone else must follow format rules
+    if (username !== "admin" && !isValidUsername(username)) {
+      alert("Username must be at least 2 letters followed by 2 digits (example: ab47).");
+      return;
+    }
 
+    if (!isValidPassword(password)) {
+      alert("Password must be at least 6 characters and include at least one uppercase letter, one lowercase letter, and one number.");
+      return;
+    }
     const user = users.find(
       u => u.username === username && u.password === password
     );
