@@ -1,29 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Helper functions to generate random username/password
-const generateUsername = (firstName, lastName) => {
-  const randomNum = Math.floor(1000 + Math.random() * 9000);
-  return `${firstName.slice(0, 2)}${lastName.slice(0, 2)}${randomNum}`;
-};
-
-const generatePassword = () => {
-  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const lower = "abcdefghijklmnopqrstuvwxyz";
-  const nums = "0123456789";
-  const all = upper + lower + nums;
-
-  let password = "";
-  password += upper[Math.floor(Math.random() * upper.length)];
-  password += lower[Math.floor(Math.random() * lower.length)];
-  password += nums[Math.floor(Math.random() * nums.length)];
-
-  for (let i = 0; i < 3; i++) {
-    password += all[Math.floor(Math.random() * all.length)];
-  }
-  return password;
-};
-
 function AdminDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("flights");
@@ -47,8 +24,6 @@ function AdminDashboard() {
     airline: "DL",
     phone: "555-111-2222",
     email: "alice@airport.com",
-    username: "AlBr1234",
-    password: "Xy1ab2",
   },
   {
     firstName: "Bob",
@@ -57,8 +32,6 @@ function AdminDashboard() {
     airline: "AA",
     phone: "555-333-4444",
     email: "bob@airport.com",
-    username: "BoGr5678",
-    password: "Ab2cd3",
   },
   {
     firstName: "Charlie",
@@ -67,8 +40,6 @@ function AdminDashboard() {
     airline: "N/A",
     phone: "555-555-6666",
     email: "charlie@airport.com",
-    username: "ChWh9012",
-    password: "Cd3ef4",
   },
 ]);
   // Form state
@@ -133,12 +104,9 @@ function AdminDashboard() {
 
   const handleAddStaff = (e) => {
     e.preventDefault();
-    const username = generateUsername(newStaff.firstName, newStaff.lastName);
-    const password = generatePassword();
-    setStaff([...staff, { ...newStaff, username, password }]);
-    setNewStaff({ firstName: "", lastName: "", role: "Airline Staff", airline: "" });
-    alert(`New staff created.\nUsername: ${username}\nPassword: ${password}`);
+    setStaff(prev => [...prev, newStaff]);
   };
+  
 
   // Message handlers
   const handleSendMessage = (e) => {
@@ -323,8 +291,6 @@ function AdminDashboard() {
                   <th>Airline</th>
                   <th>Phone</th>
                   <th>Email</th>
-                  <th>Username</th>
-                  <th>Password</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -337,8 +303,6 @@ function AdminDashboard() {
                     <td>{s.airline}</td>
                     <td>{s.phone}</td>
                     <td>{s.email}</td>
-                    <td>{s.username}</td>
-                    <td>{s.password}</td>
                     <td>
                       <button className="danger-btn"
                         onClick={() => handleRemoveStaff(s.firstName, s.lastName)}>
