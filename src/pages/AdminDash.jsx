@@ -48,8 +48,16 @@ function AdminDashboard() {
   // Form state
   const [newFlight, setNewFlight] = useState({ airline: "", flightNum: "", destination: "", gate: "" });
   const [newPassenger, setNewPassenger] = useState({ firstName: "", lastName: "", ticket: "", flight: "", status: "Not-checked-in" });
-  const [newStaff, setNewStaff] = useState({ firstName: "", lastName: "", role: "Airline Staff", airline: "" });
-
+//added these lines of code to modify the admin having access to phone numbers and emails of the passengers
+  const [newStaff, setNewStaff] = useState({
+    firstName: "",
+    lastName: "",
+    role: "Airline Staff",
+    airline: "",
+    phone: "",
+    email: "",
+  });
+  
   // Messages state
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
