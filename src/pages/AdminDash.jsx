@@ -9,10 +9,7 @@ const generateUsername = (firstName, lastName) => {
 
 const generatePassword = () => {
   const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const lower = "abcdefghijklmnopqrstuvw
-    
-    
-  xyz";
+  const lower = "abcdefghijklmnopqrstuvwxyz";
   const nums = "0123456789";
   const all = upper + lower + nums;
 
@@ -302,9 +299,6 @@ function AdminDashboard() {
               <input placeholder="Airline (if applicable)"
                 value={newStaff.airline}
                 onChange={e => setNewStaff({...newStaff, airline: e.target.value})} />
-
-              /*Adding input for phone # and email*/
-
               <input
                 placeholder="Phone Number"
                 value={newStaff.phone}
@@ -332,8 +326,6 @@ function AdminDashboard() {
                   <th>Username</th>
                   <th>Password</th>
                   <th>Actions</th>
-                  /*added the phone and email*/
-                  
                 </tr>
               </thead>
               <tbody>
@@ -343,8 +335,6 @@ function AdminDashboard() {
                     <td>{s.lastName}</td>
                     <td>{s.role}</td>
                     <td>{s.airline}</td>
-
-                    */added for the phone and email accommodations*/
                     <td>{s.phone}</td>
                     <td>{s.email}</td>
                     <td>{s.username}</td>
