@@ -16,7 +16,7 @@ function GroundStaffDashboard({ staffName }) {
   // ----------------------------
   const sampleFlights = [
     {
-      airline: "DL",
+      airline: "AA",
       flightNum: "0245",
       gate: "T1G5",
       passengers: [
@@ -38,9 +38,9 @@ function GroundStaffDashboard({ staffName }) {
   // SAMPLE BAGS
   // ----------------------------
   const [allBags, setAllBags] = useState([
-    { id: "B100001", ticket: "1234567890", airline: "DL", flightNum: "0245", status: "Not cleared", location: "Gate" },
-    { id: "B100002", ticket: "9876543210", airline: "DL", flightNum: "0245", status: "Not cleared", location: "Gate" },
-    { id: "B100003", ticket: "2233445566", airline: "AA", flightNum: "0246", status: "Not cleared", location: "Gate" }
+    { id: "100001", ticket: "1234567890", airline: "AA", flightNum: "0245", status: "Not cleared", location: "Gate" },
+    { id: "100002", ticket: "9876543210", airline: "AA", flightNum: "0245", status: "Not cleared", location: "Gate" },
+    { id: "100003", ticket: "2233445566", airline: "AA", flightNum: "0246", status: "Not cleared", location: "Gate" }
   ]);
 
   const handleLogout = () => navigate("/");
