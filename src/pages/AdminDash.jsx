@@ -88,6 +88,10 @@ function AdminDashboard() {
       alert(`Gate ${newFlight.gate} already has a flight.`);
       return;
     }
+    if (flights.some(f => f.flightNum === newFlight.flightNum)) {
+      alert(`Flight #${newFlight.flightNum} already exists. Each flight must have a unique flight number.`);
+      return;
+    }
     setFlights([...flights, newFlight]);
     setNewFlight({ airline: "", flightNum: "", destination: "", gate: "" });
   };
