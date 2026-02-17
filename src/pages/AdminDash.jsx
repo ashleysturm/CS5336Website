@@ -104,8 +104,20 @@ function AdminDashboard() {
 
   const handleAddStaff = (e) => {
     e.preventDefault();
+  
     setStaff(prev => [...prev, newStaff]);
+  
+    // reset the form AFTER adding
+    setNewStaff({
+      firstName: "",
+      lastName: "",
+      role: "Airline Staff",
+      airline: "",
+      phone: "",
+      email: "",
+    });
   };
+  
   
 
   // Message handlers
@@ -349,6 +361,7 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
+
 
 
 
