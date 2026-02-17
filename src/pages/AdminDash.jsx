@@ -15,8 +15,8 @@ function AdminDashboard() {
   ]);
 
   const [passengers, setPassengers] = useState([
-    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "0245", status: "Not-checked-in" },
-    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "1010", status: "Checked-in" },
+    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "AA0245", status: "Not-checked-in" },
+    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "AA1010", status: "Checked-in" },
   ]);
 /*changed the format to accommodate the email and phone number columns*/
  const [staff, setStaff] = useState([
@@ -99,9 +99,9 @@ function AdminDashboard() {
     setNewFlight({ airline: "", flightNum: "", destination: "", gate: "" });
   };
 
-    const handleAddPassenger = (e) => {
+     const handleAddPassenger = (e) => {
     e.preventDefault();
-    if (!flights.some(f => `${f.flightNum}` === newPassenger.flight)) {
+    if (!flights.some(f => `${f.airline}${f.flightNum}` === newPassenger.flight)) {
       alert(`Flight ${newPassenger.flight} does not exist.`);
       return;
     }
