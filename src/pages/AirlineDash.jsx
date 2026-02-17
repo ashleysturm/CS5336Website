@@ -7,14 +7,14 @@ function AirlineStaffDashboard({ airlineCode, staffName }) {
 
   // Sample flights for this airline
   const [flights, setFlights] = useState([
-    { flightNum: "0245", destination: "New York", gate: "T1G5" },
-    { flightNum: "0246", destination: "Los Angeles", gate: "T1G6" },
+    { flightNum: "AA0245", destination: "New York", gate: "T1G5" },
+    { flightNum: "AA0246", destination: "Los Angeles", gate: "T1G6" },
   ]);
 
   // Sample passengers
   const [passengers, setPassengers] = useState([
-    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "0245", status: "Not-checked-in", bags: [] },
-    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "0245", status: "Not-checked-in", bags: [] },
+    { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "AA0245", status: "Not-checked-in", bags: [] },
+    { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "AA0245", status: "Not-checked-in", bags: [] },
   ]);
 
   const [newBag, setNewBag] = useState({ ticket: "", flight: "" });
