@@ -24,12 +24,13 @@ function Login() {
 
   // Simulated user database (frontend only)
   const [users, setUsers] = useState([
-    { username: "admin", password: "Admin123", role: "/admin" },
-    { username: "airline", password: "airline123", role: "/airline" },
-    { username: "gate", password: "gate123", role: "/gate" },
-    { username: "ground", password: "ground123", role: "/ground" }
-  ]);
+  { username: "admin", password: "Admin123", role: "/admin" },
 
+  // Must be: 2+ letters followed by 2 digits
+  { username: "air12", password: "Airline12", role: "/airline" },
+  { username: "ga34", password: "Gate1234", role: "/gate" },
+  { username: "gr56", password: "Ground56", role: "/ground" }
+]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
