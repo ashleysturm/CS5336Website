@@ -9,7 +9,10 @@ const generateUsername = (firstName, lastName) => {
 
 const generatePassword = () => {
   const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const lower = "abcdefghijklmnopqrstuvw
+    
+    
+  xyz";
   const nums = "0123456789";
   const all = upper + lower + nums;
 
@@ -38,17 +41,43 @@ function AdminDashboard() {
     { firstName: "John", lastName: "Doe", ticket: "1234567890", flight: "DL0245", status: "Not-checked-in" },
     { firstName: "Jane", lastName: "Smith", ticket: "9876543210", flight: "AA1010", status: "Checked-in" },
   ]);
-
-  const [staff, setStaff] = useState([
-    { firstName: "Alice", lastName: "Brown", role: "Airline Staff", airline: "DL", username: "AlBr1234", password: "Xy1ab2" },
-    { firstName: "Bob", lastName: "Green", role: "Gate Staff", airline: "AA", username: "BoGr5678", password: "Ab2cd3" },
-    { firstName: "Charlie", lastName: "White", role: "Ground Staff", airline: "N/A", username: "ChWh9012", password: "Cd3ef4" },
-  ]);
-
+/*changed the format to accommodate the email and phone number columns*/
+ const [staff, setStaff] = useState([
+  {
+    firstName: "Alice",
+    lastName: "Brown",
+    role: "Airline Staff",
+    airline: "DL",
+    phone: "555-111-2222",
+    email: "alice@airport.com",
+    username: "AlBr1234",
+    password: "Xy1ab2",
+  },
+  {
+    firstName: "Bob",
+    lastName: "Green",
+    role: "Gate Staff",
+    airline: "AA",
+    phone: "555-333-4444",
+    email: "bob@airport.com",
+    username: "BoGr5678",
+    password: "Ab2cd3",
+  },
+  {
+    firstName: "Charlie",
+    lastName: "White",
+    role: "Ground Staff",
+    airline: "N/A",
+    phone: "555-555-6666",
+    email: "charlie@airport.com",
+    username: "ChWh9012",
+    password: "Cd3ef4",
+  },
+]);
   // Form state
   const [newFlight, setNewFlight] = useState({ airline: "", flightNum: "", destination: "", gate: "" });
   const [newPassenger, setNewPassenger] = useState({ firstName: "", lastName: "", ticket: "", flight: "", status: "Not-checked-in" });
-//added these lines of code to modify the admin having access to phone numbers and emails of the passengers
+/*added these lines of code to modify the admin having access to phone numbers and emails of the passengers*/
   const [newStaff, setNewStaff] = useState({
     firstName: "",
     lastName: "",
@@ -155,6 +184,10 @@ function AdminDashboard() {
             <form onSubmit={handleAddFlight}>
               <input placeholder="Airline" value={newFlight.airline}
                 onChange={e => setNewFlight({...newFlight, airline: e.target.value})} required />
+              
+
+
+              
               <input placeholder="Flight #" value={newFlight.flightNum}
                 onChange={e => setNewFlight({...newFlight, flightNum: e.target.value})} required />
               <input placeholder="Destination" value={newFlight.destination}
@@ -269,6 +302,21 @@ function AdminDashboard() {
               <input placeholder="Airline (if applicable)"
                 value={newStaff.airline}
                 onChange={e => setNewStaff({...newStaff, airline: e.target.value})} />
+
+              /*Adding input for phone # and email*/
+
+              <input
+                placeholder="Phone Number"
+                value={newStaff.phone}
+                onChange={(e) => setNewStaff({ ...newStaff, phone: e.target.value })}
+              />
+              
+              <input
+                type="email"
+                placeholder="Email"
+                value={newStaff.email}
+                onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
+              />
               <button type="submit">Add Staff</button>
             </form>
 
@@ -279,9 +327,13 @@ function AdminDashboard() {
                   <th>Last</th>
                   <th>Role</th>
                   <th>Airline</th>
+                  <th>Phone</th>
+                  <th>Email</th>
                   <th>Username</th>
                   <th>Password</th>
                   <th>Actions</th>
+                  /*added the phone and email*/
+                  
                 </tr>
               </thead>
               <tbody>
@@ -291,6 +343,10 @@ function AdminDashboard() {
                     <td>{s.lastName}</td>
                     <td>{s.role}</td>
                     <td>{s.airline}</td>
+
+                    */added for the phone and email accommodations*/
+                    <td>{s.phone}</td>
+                    <td>{s.email}</td>
                     <td>{s.username}</td>
                     <td>{s.password}</td>
                     <td>
